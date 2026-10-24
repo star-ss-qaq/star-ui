@@ -22,7 +22,7 @@ import { Options, Vue } from "vue-class-component";
 import Examples from "./examples/index.vue";
 import NotFount from './errors/404.vue';
 import { data } from "@/../ui/src/reg";
-import {components} from "@/../ui/src/main";
+import {components} from "@thestarweb/ui";
 
 
 type PropInof={

@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import StarUi from "@/../ui/src/main";
+import StarUi from "@thestarweb/ui";
 import i18n from "@/lang/index";
 import router from "@/router"
 

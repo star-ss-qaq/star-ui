@@ -2,56 +2,8 @@
   "name": "star-ui",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-lib": "cd ./ui&&mv ../node_modules ./node_modules&&npm run build&&mv ./node_modules ../node_modules&&cd ../",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "core-js": "^3.15.2",
-    "moment": "^2.29.1",
-    "vue": "^3.2.23",
-    "vue-class-component": "^8.0.0-0",
-    "vue-i18n": "^9.1.7",
-    "vue-router": "^4.0.10"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/cli-plugin-eslint": "^4.5.13",
-    "@vue/cli-plugin-typescript": "^4.5.13",
-    "@vue/cli-service": "^4.5.13",
-    "@vue/compiler-sfc": "^3.1.5",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.14.0",
-    "typescript": "^4.1.6",
-    "vue-property-decorator": "^10.0.0-rc.3"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended",
-      "@vue/typescript/recommended"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2020
-    },
-    "rules": {
-      "no-debugger": "off"
-    }
-  },
-  "browserslist": [
-    "Chrome >= 60",
-    "Firefox >= 54",
-    "Edge >= 15",
-    "Safari >= 10.1",
-    "iOS >= 10.3"
-  ]
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "workspaces":["packages/*"]
 }

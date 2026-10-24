@@ -32,7 +32,7 @@
 <script lang="tsx">
 import { Options, Vue } from "vue-class-component";
 
-import {func, infos} from "@/../ui/src/main";
+import {func, infos} from "@thestarweb/ui";
 
 @Options({
   components:{
