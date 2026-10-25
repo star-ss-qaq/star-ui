@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {},
-  "dependencies": {},
-  "devDependencies": {},
-  "workspaces":["packages/*"]
+  "dependencies": {
+    "vite": "^8.3.5"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

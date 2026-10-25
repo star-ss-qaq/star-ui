@@ -1,127 +1,134 @@
-:root{
-	/*背景颜色*/
-	--star-ui-backgorund-color:#FFF;
-	/*背景颜色*/
-	--star-ui-mask-color:rgba(0, 0, 0, 0.5);
-	/*字体颜色*/
-	--star-ui-font-color:#222;
-	/*表格头*/
-	--star-ui-table-head-color:#f8f8f9;
+:root {
+	/* 背景颜色 */
+	--star-ui-background-color-primary: #fff;
 	/*基础颜色*/
-	--star-ui-base-color:#8AF;
+	--star-ui-primary-color: rgb(50, 180, 255);
+	--star-ui-success-color: #67C23A;
+	--star-ui-warning-color: #E6A23C;
+	--star-ui-danger-color: #F56C6C;
+	/* 字体颜色 */
+	--star-ui-text-color-primary: #222;
+	--star-ui-text-color-label: #555;
+	--star-ui-text-color-weak: #555;
+	--star-ui-text-color-placeholder: #C0C4CC;
+	/* 边框 */
+	--star-ui-border-color-base: #8af;
+	/* 圆角 */
+	--star-ui-border-radius-base: 5px;
+	/* 遮罩颜色 */
+	--star-ui-mask-color: rgba(0, 0, 0, 0.5);
+	/*表格头*/
+	--star-ui-table-head-color: #f8f8f9;
 	/*线条颜色*/
-	--star-ui-line-color:#8AF;
+	--star-ui-line-color: #8af;
 	--star-ui-regular-text-color: #606266;
 	/*线路宽度*/
-	--star-ui-line-width:1px;
-	/*圆角*/
-	--star-ui-border-radius:5px;
+	--star-ui-line-width: 1px;
 	/*输入框边框默认颜色*/
-	--star-ui-input-border-color:#666;
+	--star-ui-input-border-color: #666;
 	/*中等大小输入框字体大小*/
-	--star-ui-input-medium-font-size:16px;
+	--star-ui-input-medium-font-size: 16px;
 	/*小输入框字体大小*/
-	--star-ui-input-mini-font-size:12px;
+	--star-ui-input-mini-font-size: 12px;
 	/*输入框默认宽度*/
-	--star-ui-input-default-width:280px;
-	--star-ui-default-padding:5px;
+	--star-ui-input-default-width: 280px;
+	--star-ui-default-padding: 5px;
 }
-.dark-mode{
-	--star-ui-backgorund-color:#555;
+.dark-mode {
+	--star-ui-background-color: #555;
 }
-@import url("./icon-font/iconfont.css");
-.star-ui{
-	margin:0;
+.star-ui {
+	margin: 0;
 	padding: 0;
 	position: relative;
 	box-sizing: border-box;
 }
 /*内容容器大大小*/
-.star-ui-container{
+.star-ui-container {
 	padding: var(--star-ui-default-padding);
 }
-.star-ui-size-medium{
+.star-ui-size-medium {
 	font-size: var(--star-ui-input-medium-font-size);
 	line-height: var(--star-ui-input-medium-font-size);
 	padding: var(--star-ui-default-padding);
 	border-radius: var(--star-ui-border-radius);
 }
 /*小尺寸空间参数*/
-.star-ui-size-mini{
+.star-ui-size-mini {
 	font-size: var(--star-ui-input-mini-font-size);
 	line-height: var(--star-ui-input-mini-font-size);
 	padding: calc(var(--star-ui-default-padding) / 2);
 	border-radius: calc(var(--star-ui-border-radius) / 2);
 }
-.star-ui-col-1{
+.star-ui-col-1 {
 	width: calc(100% / 24 * 1);
 }
-.star-ui-col-2{
+.star-ui-col-2 {
 	width: calc(100% / 24 * 2);
 }
-.star-ui-col-3{
+.star-ui-col-3 {
 	width: calc(100% / 24 * 3);
 }
-.star-ui-col-4{
+.star-ui-col-4 {
 	width: calc(100% / 24 * 4);
 }
-.star-ui-col-5{
+.star-ui-col-5 {
 	width: calc(100% / 24 * 5);
 }
-.star-ui-col-6{
+.star-ui-col-6 {
 	width: calc(100% / 24 * 6);
 }
-.star-ui-col-7{
+.star-ui-col-7 {
 	width: calc(100% / 24 * 7);
 }
-.star-ui-col-8{
+.star-ui-col-8 {
 	width: calc(100% / 24 * 8);
 }
-.star-ui-col-9{
+.star-ui-col-9 {
 	width: calc(100% / 24 * 9);
 }
-.star-ui-col-10{
+.star-ui-col-10 {
 	width: calc(100% / 24 * 10);
 }
-.star-ui-col-11{
+.star-ui-col-11 {
 	width: calc(100% / 24 * 11);
 }
-.star-ui-col-12{
+.star-ui-col-12 {
 	width: calc(100% / 24 * 12);
 }
-.star-ui-col-13{
+.star-ui-col-13 {
 	width: calc(100% / 24 * 13);
 }
-.star-ui-col-14{
+.star-ui-col-14 {
 	width: calc(100% / 24 * 14);
 }
-.star-ui-col-15{
+.star-ui-col-15 {
 	width: calc(100% / 24 * 15);
 }
-.star-ui-col-16{
+.star-ui-col-16 {
 	width: calc(100% / 24 * 16);
 }
-.star-ui-col-17{
+.star-ui-col-17 {
 	width: calc(100% / 24 * 17);
 }
-.star-ui-col-18{
+.star-ui-col-18 {
 	width: calc(100% / 24 * 18);
 }
-.star-ui-col-19{
+.star-ui-col-19 {
 	width: calc(100% / 24 * 19);
 }
-.star-ui-col-20{
+.star-ui-col-20 {
 	width: calc(100% / 24 * 20);
 }
-.star-ui-col-21{
+.star-ui-col-21 {
 	width: calc(100% / 24 * 22);
 }
-.star-ui-col-22{
+.star-ui-col-22 {
 	width: calc(100% / 24 * 22);
 }
-.star-ui-col-23{
+.star-ui-col-23 {
 	width: calc(100% / 24 * 23);
 }
-.star-ui-col-24{
+.star-ui-col-24 {
 	width: calc(100% / 24 * 24);
 }
