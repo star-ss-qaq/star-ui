@@ -1,10 +1,7 @@
 .DS_Store
 node_modules
 node_modules_
-/dist
-/ui/dist
-/ui/types
-/ui/out
+dist
 
 
 # local env files
@@ -26,3 +23,4 @@ pnpm-debug.log*
 *.sln
 *.sw?
 ui/package-lock.json
+package-lock.json
