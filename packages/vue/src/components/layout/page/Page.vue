@@ -5,17 +5,19 @@
 				v-if="isMobile"
 				class="star-ui-icon-font star-ui-icon-menu su-page--mobile-menu-open"
 				@click="isOpenMenu = true"
-			/>
+			>
+				<IconMenu class="star-ui-icon" />
+			</span>
 			<slot name="header"></slot>
 			<div v-if="!isMobile" class="su-page--menu-box">
-				<su-menu :menu="menu" direction="h">
+				<Menu :menu="menu" direction="h">
 					<template v-if="$slots['menu']" v-slot="item">
 						<slot name="menu" v-bind="item" />
 					</template>
 					<template v-else-if="$slots['menu-text']" v-slot:menu-text="item">
 						<slot name="text" v-bind="item" />
 					</template>
-				</su-menu>
+				</Menu>
 			</div>
 		</header>
 		<main class="su-ui su-page--main">
@@ -32,21 +34,24 @@
 			]"
 			@click="isOpenMenu = false"
 		>
-			<su-menu :menu="menu" direction="v" @click.stop>
+			<Menu :menu="menu" direction="v" @click.stop>
 				<template v-if="$slots['menu']" v-slot="item">
 					<slot name="menu" v-bind="item" />
 				</template>
 				<template v-else-if="$slots['menu-text']" v-slot:menu-text="item">
 					<slot name="text" v-bind="item" />
 				</template>
-			</su-menu>
+			</Menu>
 		</div>
 	</div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-defineProps<{ menu: any }>();
-const isMobile = false;
+import { useIsMobile } from "../../../context";
+import { Menu, MenuItem } from "../../other";
+import { IconMenu } from "../../../icons";
+const { menu } = defineProps<{ menu: MenuItem[] }>();
+const isMobile = useIsMobile();
 const isOpenMenu = ref(false);
 </script>
 <style>
@@ -75,8 +80,8 @@ const isOpenMenu = ref(false);
 	height: 100%;
 	z-index: 999999;
 }
-.su-page--menu-box .star-ui-menu-h--chlild-box {
-	color: var(--star-ui-font-color);
+.su-page--menu-box .star-ui-menu-h--child-box {
+	color: var(--star-ui-text-color-primary);
 }
 .su-page--menu-box .su-menu {
 	height: 100%;
@@ -101,7 +106,7 @@ const isOpenMenu = ref(false);
 .su-page--mobile-menu-box .star-ui-menu-v {
 	margin-left: 0;
 	transition: margin-left 0.5s;
-	background-color: var(--star-ui-backgorund-color);
+	background-color: var(--star-ui-background-color-primary);
 	width: 80%;
 	height: 100%;
 	border-right: solid 1px var(--star-ui-line-color);

@@ -1,1 +1,2 @@
-export * from './components';
+import "./global-style.css";
+export * from "./components";

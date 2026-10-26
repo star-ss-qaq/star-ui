@@ -1,1 +1,3 @@
-export { default as Page } from "./page/index.vue";
+export * from "./base";
+export * from "./layout";
+export * from "./other";

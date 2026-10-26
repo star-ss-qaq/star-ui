@@ -1,6 +1,6 @@
 <template>
 	<div :class="['star-ui', 'star-ui-menu', 'star-ui-menu-h']">
-		<su-h-menu-item
+		<MenuHItem
 			v-for="item in menu"
 			:key="item.path"
 			:item="item"
@@ -11,13 +11,15 @@
 					<slot v-bind="data" />
 				</div>
 			</template>
-		</su-h-menu-item>
+		</MenuHItem>
 	</div>
 </template>
 <script setup lang="ts">
+import MenuHItem from "./menu-h-item.vue";
 import { MenuItem } from "../types";
 
 const { menu } = defineProps<{ menu: MenuItem[] }>();
+//
 </script>
 <style>
 .star-ui-menu-h {

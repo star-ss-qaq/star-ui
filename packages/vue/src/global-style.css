@@ -1,16 +1,19 @@
 :root {
 	/* 背景颜色 */
 	--star-ui-background-color-primary: #fff;
+	--star-ui-background-color-dark: #0c0440;
 	/*基础颜色*/
-	--star-ui-primary-color: rgb(50, 180, 255);
+	--star-ui-primary-color: rgb(12, 129, 255);
 	--star-ui-success-color: #67C23A;
 	--star-ui-warning-color: #E6A23C;
 	--star-ui-danger-color: #F56C6C;
+	--star-ui-disabled-color: #C0C4CC;
 	/* 字体颜色 */
 	--star-ui-text-color-primary: #222;
 	--star-ui-text-color-label: #555;
 	--star-ui-text-color-weak: #555;
 	--star-ui-text-color-placeholder: #C0C4CC;
+	--star-ui-text-color-in-dark: #fff;
 	/* 边框 */
 	--star-ui-border-color-base: #8af;
 	/* 圆角 */
@@ -43,6 +46,12 @@
 	position: relative;
 	box-sizing: border-box;
 }
+.star-ui-icon{
+	width:1em;
+	height: 1em;
+	fill: currentColor;
+	vertical-align: middle;
+}
 /*内容容器大大小*/
 .star-ui-container {
 	padding: var(--star-ui-default-padding);
@@ -51,14 +60,14 @@
 	font-size: var(--star-ui-input-medium-font-size);
 	line-height: var(--star-ui-input-medium-font-size);
 	padding: var(--star-ui-default-padding);
-	border-radius: var(--star-ui-border-radius);
+	border-radius: var(--star-ui-border-radius-base);
 }
 /*小尺寸空间参数*/
-.star-ui-size-mini {
+.star-ui-size-small {
 	font-size: var(--star-ui-input-mini-font-size);
 	line-height: var(--star-ui-input-mini-font-size);
 	padding: calc(var(--star-ui-default-padding) / 2);
-	border-radius: calc(var(--star-ui-border-radius) / 2);
+	border-radius: var(--star-ui-border-radius-base);
 }
 .star-ui-col-1 {
 	width: calc(100% / 24 * 1);
