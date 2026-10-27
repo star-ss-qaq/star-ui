@@ -34,9 +34,10 @@ const refInput = useTemplateRef("input");
 <style>
 .star-ui-switch {
 	display: inline-block;
-	---active-color: var(--star-ui-primary-color);
+	--active-color: var(--star-ui-primary-color);
 	border-color: transparent;
 	position: relative;
+	width: 2.8em;
 }
 .star-ui-switch::before {
 	content: "\200B"; /* 零宽空格 */
@@ -51,13 +52,15 @@ const refInput = useTemplateRef("input");
 .star-ui-switch div {
 	position: absolute;
 	display: inline-block;
-	width: 2.8em;
+	width: 100%;
 	height: calc(80%);
 	top: 10%;
 	border-radius: 1em;
 	border: 1px solid var(--star-ui-border-color-base);
 	transition: all 0.2s;
 	cursor: pointer;
+	--current-color: transparent;
+	background-color: var(--current-color);
 }
 .star-ui-switch div span {
 	position: absolute;
@@ -73,9 +76,24 @@ const refInput = useTemplateRef("input");
 	transition: all 0.2s;
 }
 .star-ui-switch input:checked + div {
-	background-color: var(---active-color);
+	--current-color: var(--active-color);
 }
 .star-ui-switch input:checked + div span {
 	transform: translateX(calc(2.8em - var(--padding) * 2 - 100%));
+}
+.star-ui-switch input:disabled + div {
+	background-color: color-mix(
+		in srgb,
+		var(--current-color),
+		var(--star-ui-disabled-color)
+	);
+	cursor: not-allowed;
+}
+.star-ui-switch input:disabled + div span {
+	background-color: color-mix(
+		in srgb,
+		var(--star-ui-background-color-primary),
+		var(--star-ui-disabled-color)
+	);
 }
 </style>
