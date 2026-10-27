@@ -25,7 +25,4 @@ const { direction = "h" } = defineProps<{ direction?: "h" | "v" }>();
 .su-layout > * {
 	flex: 0 0 auto;
 }
-.su-layout > .star-ui-main {
-	width: 0;
-}
 </style>

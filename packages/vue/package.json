@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {},
   "dependencies": {
+    "dayjs": "^1.11.23",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
     "vue": "^3.5.44"

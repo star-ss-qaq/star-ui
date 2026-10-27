@@ -6,6 +6,6 @@
 
 <style>
 .star-ui-main {
-	flex: 1;
+	flex: 1 1 0;
 }
 </style>
