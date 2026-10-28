@@ -18,7 +18,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { useTemplateRef, watch } from "vue";
+import { useTemplateRef } from "vue";
 import { Size } from "../../../types";
 
 const {
@@ -27,7 +27,6 @@ const {
 	disabled,
 } = defineProps<{ size?: Size; name?: string; disabled?: boolean }>();
 const value = defineModel<boolean>({ default: false });
-watch(value, () => console.log(value.value));
 const refInput = useTemplateRef("input");
 </script>
 

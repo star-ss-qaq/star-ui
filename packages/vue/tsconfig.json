@@ -1,19 +1,21 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "nodenext",
-    "strict": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "nodenext",
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "declaration": true,
-    "declarationDir": "./types/",
-    "emitDeclarationOnly": true,
-    "outDir":"./dist"
-  },
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "nodenext",
+		"strict": true,
+		"jsx": "preserve",
+		"importHelpers": true,
+		"moduleResolution": "nodenext",
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"declaration": true,
+		"declarationDir": "./types/",
+		"emitDeclarationOnly": true,
+		"outDir": "./dist",
+		"noImplicitAny": false,
+		"paths": { "@thestarweb/ui": ["./src/index.ts"] }
+	}
 }
