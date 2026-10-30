@@ -88,11 +88,11 @@ const refInput = useTemplateRef("input");
 	);
 	cursor: not-allowed;
 }
-.star-ui-switch input:disabled + div span {
+/* .star-ui-switch input:disabled + div span {
 	background-color: color-mix(
 		in srgb,
 		var(--star-ui-background-color-primary),
 		var(--star-ui-disabled-color)
 	);
-}
+} */
 </style>

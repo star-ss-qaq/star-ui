@@ -24,3 +24,4 @@ pnpm-debug.log*
 *.sw?
 ui/package-lock.json
 package-lock.json
+packages/*/types

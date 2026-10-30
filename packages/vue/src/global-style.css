@@ -7,6 +7,7 @@
 	--star-ui-success-color: #67C23A;
 	--star-ui-warning-color: #E6A23C;
 	--star-ui-danger-color: #F56C6C;
+	--star-ui-info-color: #909399;
 	--star-ui-disabled-color: #C0C4CC;
 	/* 字体颜色 */
 	--star-ui-text-color-primary: #222;
@@ -15,7 +16,8 @@
 	--star-ui-text-color-placeholder: #C0C4CC;
 	--star-ui-text-color-in-dark: #fff;
 	/* 边框 */
-	--star-ui-border-color-base: #8af;
+	--star-ui-border-color-base: #e8eaec;
+	--star-ui-border-color-bold: #a1a8af;
 	/* 圆角 */
 	--star-ui-border-radius-base: 5px;
 	/* 遮罩颜色 */
@@ -61,7 +63,7 @@
 	line-height: calc(var(--star-ui-input-medium-font-size) + 2px);
 	padding: var(--star-ui-default-padding);
 	border-radius: var(--star-ui-border-radius-base);
-	border: 1px solid var(--star-ui-border-color-base);
+	border: 1px solid transparent;
 }
 /*小尺寸空间参数*/
 .star-ui-size-small {
@@ -69,7 +71,7 @@
 	line-height: calc(var(--star-ui-input-medium-font-size) + 2px);
 	padding: calc(var(--star-ui-default-padding) / 2);
 	border-radius: var(--star-ui-border-radius-base);
-	border: 1px solid var(--star-ui-border-color-base);
+	border: 1px solid transparent;
 }
 .star-ui-col-1 {
 	width: calc(100% / 24 * 1);

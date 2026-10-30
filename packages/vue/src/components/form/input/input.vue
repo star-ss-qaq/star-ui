@@ -1,6 +1,12 @@
 <template>
 	<div
-		:class="['star-ui', 'su-input', 'star-ui-input', `star-ui-size-${size}`]"
+		:class="[
+			'star-ui',
+			'su-input',
+			'star-ui-input',
+			`star-ui-size-${size}`,
+			{ disabled },
+		]"
 	>
 		<input
 			type="text"
@@ -42,6 +48,9 @@ const value = defineModel({
 	width: var(--star-ui-input-default-width);
 	overflow: hidden;
 	color: var(--star-ui-regular-text-color);
+	border-color: var(--star-ui-border-color-base);
+	--bg-color: transparent;
+	background-color: var(--bg-color);
 }
 .star-ui-input:hover {
 	border-color: var(--star-ui-primary-color);
@@ -62,5 +71,13 @@ const value = defineModel({
 	width: 100%;
 	font-size: inherit;
 	line-height: inherit;
+}
+.star-ui-input.disabled {
+	border-color: var(--star-ui-border-color-base);
+	background-color: color-mix(var(--bg-color), var(--star-ui-disabled-color));
+	cursor: not-allowed;
+}
+.star-ui-input.disabled .star-ui-input--inner {
+	cursor: not-allowed;
 }
 </style>

@@ -56,6 +56,9 @@ const {
 .star-ui-button-danger {
 	--main-color: var(--star-ui-danger-color);
 }
+.star-ui-button-info {
+	--main-color: var(--star-ui-info-color);
+}
 .star-ui-button:hover {
 	background-color: hsl(
 		from var(--bg-color) h calc(1.1 * s) calc(0.95 * l) / alpha

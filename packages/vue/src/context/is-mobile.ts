@@ -9,6 +9,6 @@ export function useIsMobile() {
 		computed(() => false),
 	);
 }
-export function pro(p: Ref<boolean> | ComputedRef<boolean>) {
+export function provideIsMobile(p: Ref<boolean> | ComputedRef<boolean>) {
 	provide(SuViewCtrlInjectKeyIsMobile, p);
 }
