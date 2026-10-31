@@ -1,5 +1,4 @@
 <template>
-	<!-- <slot name="reference" ref="reference"></slot> -->
 	<component :is="referenceRender" />
 
 	<teleport
@@ -12,6 +11,7 @@
 			:class="[
 				'star-ui',
 				'star-ui-popper',
+				`star-ui-popper--position-${position}`,
 				innerVisible ? 'visible' : 'hidden',
 				renderAsMobile ? 'mobile' : 'pc',
 				...localClass,
@@ -59,6 +59,7 @@ const {
 	allowMobileStyle,
 	maskOnMobile,
 	trigger = "click",
+	position = "absolute",
 } = defineProps<{
 	referenceElement?: Element | { value: Element } | null;
 	className?: string | string[];
@@ -70,6 +71,7 @@ const {
 	allowMobileStyle?: boolean;
 	maskOnMobile?: boolean;
 	trigger?: "click" | "none";
+	position?: "fixed" | "absolute";
 }>();
 const visible = defineModel("visible");
 const selfMounted = ref(false);
@@ -133,7 +135,23 @@ const referenceRender = () => {
 			console.warn(`期望1个子节点，但得到${res.length}个`);
 		}
 		const prop: any = {
-			ref: refNode,
+			ref: (ref) => {
+				refNode.value = ref;
+				const rawRef = res[0].props?.ref;
+				if (rawRef) {
+					switch (typeof rawRef) {
+						case "function":
+							rawRef(ref);
+							break;
+						case "string":
+							res[0].ctx.refs[rawRef] = ref;
+							break;
+						case "object":
+							rawRef.value = ref;
+							break;
+					}
+				}
+			},
 		};
 		if (trigger === "click") {
 			prop.onClick = (...prop) => {
@@ -174,22 +192,24 @@ const localClass = computed(() => {
 function updatePos() {
 	if (
 		!relReferenceElement.value ||
-		!refPopoverRoot.value?.offsetParent ||
+		!refPopoverRoot.value ||
 		renderAsMobile.value
 	) {
 		return false;
 	}
 	const refBox = relReferenceElement.value.getBoundingClientRect();
 	const selfBox = refPopoverRoot.value.getBoundingClientRect();
-	let offsetBox =
-		refPopoverRoot.value.offsetParent === document.body &&
-		getComputedStyle(document.body).position === "static"
-			? {
-					top: -window.scrollY,
-					left: -window.scrollX,
-				}
-			: refPopoverRoot.value.offsetParent.getBoundingClientRect();
-
+	const offsetBox =
+		position === "fixed"
+			? { top: 0, left: 0 }
+			: !refPopoverRoot.value.offsetParent ||
+				  (refPopoverRoot.value.offsetParent === document.body &&
+						getComputedStyle(document.body).position === "static")
+				? {
+						top: -window.scrollY,
+						left: -window.scrollX,
+					}
+				: refPopoverRoot.value.offsetParent.getBoundingClientRect();
 	const { x, y } = placementType.value;
 	const { style } = refPopoverRoot.value;
 	style.top = placementHandleFn[y](
@@ -238,6 +258,9 @@ const emit = defineEmits<{ (name: "out-click", ev: MouseEvent): void }>();
 	transition: all 0.2s;
 	--backgraund-color: var(--star-ui-background-color-primary);
 	--border-color: var(--star-ui-border-color-bold);
+}
+.star-ui-popper--position-fixed {
+	position: fixed;
 }
 .star-ui-popper.hidden {
 	pointer-events: none;

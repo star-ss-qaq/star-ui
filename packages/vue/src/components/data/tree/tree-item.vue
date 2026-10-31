@@ -1,5 +1,17 @@
 <template>
-	<div :class="['star-ui', 'star-ui-tree-item']">
+	<div
+		v-if="
+			!shouldItemShow ||
+			shouldItemShow({
+				item,
+				index,
+				itemKey: itemKey,
+				items: items,
+				indexes: indexes,
+			})
+		"
+		:class="['star-ui', 'star-ui-tree-item']"
+	>
 		<div
 			:class="[
 				'star-ui-tree-item-label',
@@ -8,7 +20,6 @@
 					'star-ui-tree-current': currentKey === itemKey,
 				},
 			]"
-			@click="handleClick"
 		>
 			<span
 				:class="[
@@ -24,13 +35,27 @@
 				<IconArrowRight v-if="children?.length" class="star-ui-icon" />
 			</span>
 			<div @click="handleClick">
-				<slot v-if="$slots.default" :item="item" />
+				<component
+					:is="labelRender"
+					:item="item"
+					:index="index"
+					:items="items"
+					:indexes="indexes"
+					:item-key="itemKey"
+				/>
 			</div>
 		</div>
 		<div class="star-ui-tree-item-child" v-if="expendKey.has(itemKey)">
 			<tree-item
 				v-for="(item, index) in children"
-				:key="itemKeyFn(item, items, indexes)"
+				:key="
+					itemKeyFn(item, {
+						item,
+						index,
+						items: items,
+						indexes: indexes,
+					})
+				"
 				v-bind="$props"
 				:item="item"
 				:index="index"
@@ -49,7 +74,7 @@
 <script setup lang="ts" generic="T = any">
 import { Size } from "../../../types";
 import { computed } from "vue";
-import { ItemContext } from "./type";
+import { TreeItemContext, TreeItemContextWithKey } from "./type";
 import { IconArrowRight } from "../../../icons";
 
 const {
@@ -62,24 +87,34 @@ const {
 	expendKey,
 	pIndexes = [],
 	pItems = [],
+	labelRender,
 } = defineProps<{
 	item: T;
 	index: number;
 	size: Size;
-	itemKeyFn: (item: T, items: T[], index: number[]) => string | number;
+	itemKeyFn: (item: T, context: TreeItemContext<T>) => string | number;
 	childrenFn: (item: T) => T[] | undefined;
 	currentKey?: string | number;
 	expendKey: Set<string | number>;
 	pIndexes?: number[];
 	pItems?: T[];
+	labelRender?: (context: TreeItemContextWithKey<T>) => any;
+	shouldItemShow?: (context: TreeItemContextWithKey<T>) => boolean;
 }>();
 const indexes = computed(() => [...pIndexes, index]);
 const items = computed(() => [...pItems, item]);
-const itemKey = computed(() => itemKeyFn(item, items.value, indexes.value));
+const itemKey = computed(() =>
+	itemKeyFn(item, {
+		item,
+		index,
+		items: items.value,
+		indexes: indexes.value,
+	}),
+);
 const children = computed(() => childrenFn(item));
 const emit = defineEmits<{
-	(ev: "item-click", context: ItemContext<T>): void;
-	(ev: "expend", context: ItemContext<T>);
+	(ev: "item-click", context: TreeItemContextWithKey<T>): void;
+	(ev: "expend", context: TreeItemContextWithKey<T>): void;
 }>();
 function handleClick() {
 	emit("item-click", {

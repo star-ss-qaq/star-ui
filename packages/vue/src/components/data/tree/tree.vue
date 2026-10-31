@@ -11,7 +11,7 @@
 	>
 		<tree-item
 			v-for="(item, index) in treeData"
-			:key="keyFn(item, [item], [index])"
+			:key="keyFn(item, { item, index, items: [item], indexes: [index] })"
 			:size="size"
 			:item="item"
 			:index="index"
@@ -19,13 +19,15 @@
 			:children-fn="childrenFn"
 			:current-key="currentKey"
 			:expendKey="expendKeySet"
+			:label-render="labelRender"
+			:should-item-show="shouldItemShow"
 			@expend="handleExpend"
 			@item-click="handleChildNodeClick"
 		>
 			<template #default="prop">
 				<slot v-if="$slots.default" v-bind="prop"></slot>
 				<template v-else>
-					{{ (prop.item as any)[labelKey || "label"] }}
+					{{ (prop.item as any)[label || "label"] }}
 				</template>
 			</template>
 		</tree-item>
@@ -35,39 +37,22 @@
 <script setup lang="ts" generic="T">
 import { computed } from "vue";
 import treeItem from "./tree-item.vue";
-import { Size } from "../../../types";
-import {
-	getObjectKeyFn,
-	ObjectKeyProp,
-	StringOrNumberValueKey,
-} from "../../../utils";
-import { ItemContext } from "./type";
-
-export type MayChildrenKey<T> = {
-	[k in keyof T]: T[k] extends T[] | undefined ? k : never;
-}[keyof T];
+import { TreeItemContextWithKey, TreeProp } from "./type";
+import { getTreeLabelRender, getTreeKeyFn } from "./utils.js";
 
 const {
 	size = "medium",
 	treeData,
 	itemKey,
-	labelKey,
+	label,
 	highlightCurrent,
 	children,
-} = defineProps<{
-	size?: Size;
-	treeData: T[];
-	itemKey?: ObjectKeyProp<T, [items: T[], indexes: number[]]>;
-	labelKey?: StringOrNumberValueKey<T>;
-	children?: MayChildrenKey<T> | ((item: T) => T[] | undefined);
-	highlightCurrent?: boolean;
-	itemClick?: "expend" | "select";
-}>();
-const keyFn = computed(
-	() =>
-		getObjectKeyFn(itemKey) || ((item, items, indexes) => indexes.join(".")),
-);
+	shouldItemShow,
+} = defineProps<TreeProp<T>>();
+
+const keyFn = computed(() => getTreeKeyFn(itemKey));
 const currentKey = defineModel<string | number>("current-key");
+const labelRender = computed(() => getTreeLabelRender(label));
 const childrenFn = computed(() => {
 	switch (typeof children) {
 		case "function":
@@ -81,10 +66,10 @@ const expendKey = defineModel<(string | number)[]>("expend-key");
 const expendKeySet = computed(() => new Set(expendKey.value));
 
 const emit = defineEmits<{
-	(ev: "item-click", context: ItemContext<T>): void;
-	(ev: "expend", expend: boolean, context: ItemContext<T>);
+	(ev: "item-click", context: TreeItemContextWithKey<T>): void;
+	(ev: "expend", expend: boolean, context: TreeItemContextWithKey<T>);
 }>();
-function handleExpend(context: ItemContext<T>) {
+function handleExpend(context: TreeItemContextWithKey<T>) {
 	const isExpend = expendKeySet.value.has(context.itemKey);
 	if (isExpend) {
 		expendKey.value = expendKey.value!.filter((i) => i !== context.itemKey);
@@ -93,7 +78,7 @@ function handleExpend(context: ItemContext<T>) {
 	}
 	emit("expend", !isExpend, context);
 }
-function handleChildNodeClick(context: ItemContext<T>) {
+function handleChildNodeClick(context: TreeItemContextWithKey<T>) {
 	currentKey.value = context.itemKey;
 	emit("item-click", context);
 }

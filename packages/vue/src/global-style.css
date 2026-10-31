@@ -73,6 +73,9 @@
 	border-radius: var(--star-ui-border-radius-base);
 	border: 1px solid transparent;
 }
+.star-ui-placeholder{
+	color: var(--star-ui-text-color-placeholder);
+}
 .star-ui-col-1 {
 	width: calc(100% / 24 * 1);
 }
