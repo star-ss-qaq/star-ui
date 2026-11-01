@@ -1,0 +1,53 @@
+@layer star-ui-base {
+	:root {
+		/* 背景颜色 */
+		--star-ui-background-color-primary: #fff;
+		--star-ui-background-color-dark: #0c0440;
+		/*基础颜色*/
+		--star-ui-primary-color: rgb(12, 129, 255);
+		--star-ui-primary-inner-text-color: #fff;
+		--star-ui-success-color: #67c23a;
+		--star-ui-success-inner-text-color: #fff;
+		--star-ui-warning-color: #e6a23c;
+		--star-ui-warning-inner-text-color: #fff;
+		--star-ui-danger-color: #f56c6c;
+		--star-ui-danger-inner-text-color: #fff;
+		--star-ui-info-color: #909399;
+		--star-ui-info-inner-text-color: #fff;
+		--star-ui-disabled-color: #c0c4cc;
+		/* 字体颜色 */
+		--star-ui-text-color-primary: #222;
+		--star-ui-text-color-label: #555;
+		--star-ui-text-color-weak: #555;
+		--star-ui-text-color-placeholder: #c0c4cc;
+		--star-ui-text-color-in-dark: #fff;
+		/* 边框 */
+		--star-ui-border-color-base: #e8eaec;
+		--star-ui-border-color-bold: #a1a8af;
+		/* 圆角 */
+		--star-ui-border-radius-base: 5px;
+		/* 遮罩颜色 */
+		--star-ui-mask-color: rgba(0, 0, 0, 0.5);
+		/*表格头*/
+		--star-ui-table-head-color: #f8f8f9;
+		/*线条颜色*/
+		--star-ui-line-color: #8af;
+		--star-ui-regular-text-color: #606266;
+		/*线路宽度*/
+		--star-ui-line-width: 1px;
+		/*输入框边框默认颜色*/
+		--star-ui-input-border-color: #666;
+		/*中等大小输入框字体大小*/
+		--star-ui-input-medium-font-size: 16px;
+		/*小输入框字体大小*/
+		--star-ui-input-small-font-size: 14px;
+		/*迷你入框字体大小*/
+		--star-ui-input-mini-font-size: 12px;
+		/*输入框默认宽度*/
+		--star-ui-input-default-width: 280px;
+		--star-ui-default-padding: 5px;
+	}
+	.dark-mode {
+		--star-ui-background-color: #555;
+	}
+}

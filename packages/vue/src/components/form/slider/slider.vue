@@ -105,7 +105,8 @@ function handleUp() {
 }
 .su-slider--inner-runway {
 	height: 4px;
-	background-color: var(--star-ui-input-border-color);
+	background-color: var(--star-ui-border-color-bold);
+	border-radius: 100px;
 	cursor: pointer;
 }
 .su-slider--inner-button-wrapper {
@@ -123,6 +124,13 @@ function handleUp() {
 .su-slider .su-slider--inner-button-wrapper:hover,
 .su-slider.su-slider-moving .su-slider--inner-button-wrapper {
 	transform: scale(1.2, 1.2);
+}
+.su-slider-disabled .su-slider--inner-runway,
+.su-slider-disabled .su-slider--inner-button-wrapper {
+	cursor: not-allowed;
+}
+.su-slider-disabled .su-slider--inner-button-wrapper:hover {
+	transform: scale(1);
 }
 .su-slider-disabled .su-slider--inner-button-wrapper {
 	background-color: color-mix(

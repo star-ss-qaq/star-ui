@@ -1,14 +1,14 @@
 <template>
 	<div>
-		<Button v-for="type in types" :type="type">button</Button>
+		<Button v-for="theme in themes" :theme="theme">button</Button>
 	</div>
 	<div>
-		<Button v-for="type in types" :type="type" disabled>button</Button>
+		<Button v-for="theme in themes" :theme="theme" disabled>button</Button>
 	</div>
 </template>
 <script setup lang="ts">
 import { Button } from "@thestarweb/ui";
-const types = [
+const themes = [
 	"primary",
 	"success",
 	"warning",

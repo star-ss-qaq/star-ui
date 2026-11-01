@@ -1,2 +1,3 @@
-import "./global-style.css";
+// import "./global-style.css";
+import "./style/index.css";
 export * from "./components";

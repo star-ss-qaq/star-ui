@@ -1,0 +1,58 @@
+@layer star-ui-color{
+	.star-ui-color-text-default {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-text-color-primary);
+	}
+	.star-ui-color-text-primary {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-primary-color);
+	}
+	.star-ui-color-text-success {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-success-color);
+	}
+	.star-ui-bcolor-text-warning {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-warning-color);
+	}
+	.star-ui-color-text-danger {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-danger-color);
+	}
+	.star-ui-color-text-info {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-info-color);
+	}
+
+	.star-ui-color-bg-default {
+		--bg-color: transparent;
+		--text-color: var(--star-ui-text-color-primary);
+	}
+	.star-ui-color-bg-primary {
+		--bg-color: var(--star-ui-primary-color);
+		--text-color: var(--star-ui-primary-inner-text-color);
+	}
+	.star-ui-color-bg-success {
+		--bg-color: var(--star-ui-success-color);
+		--text-color: var(--star-ui-success-inner-text-color);
+	}
+	.star-ui-color-bg-warning {
+		--bg-color: var(--star-ui-warning-color);
+		--text-color: var(--star-ui-warning-inner-text-color);
+	}
+	.star-ui-color-bg-danger {
+		--bg-color: var(--star-ui-danger-color);
+		--text-color: var(--star-ui-danger-inner-text-color);
+	}
+	.star-ui-color-bg-info {
+		--bg-color: var(--star-ui-info-color);
+		--text-color: var(--star-ui-info-inner-text-color);
+	}
+
+	.star-ui-block-theme-apply-bg {
+		background-color: var(--bg-color);
+	}
+	.star-ui-block-theme-apply-text {
+		color: var(--text-color);
+	}
+}

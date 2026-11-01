@@ -1,0 +1,21 @@
+@layer star-ui-common {
+	.star-ui {
+		margin: 0;
+		padding: 0;
+		position: relative;
+		box-sizing: border-box;
+	}
+	.star-ui-icon {
+		width: 1em;
+		height: 1em;
+		fill: currentColor;
+		vertical-align: middle;
+	}
+	/*内容容器大大小*/
+	.star-ui-container {
+		padding: var(--star-ui-default-padding);
+	}
+	.star-ui-placeholder {
+		color: var(--star-ui-text-color-placeholder);
+	}
+}

@@ -5,7 +5,7 @@
 			'su-container',
 			'star-ui-container',
 			'star-ui-button',
-			type ? `star-ui-button-${type}` : '',
+			`star-ui-color-bg-${theme}`,
 			`star-ui-size-${size}`,
 		]"
 		:disabled="disabled"
@@ -14,14 +14,14 @@
 	</button>
 </template>
 <script setup lang="tsx">
-import { Size } from "../../../types";
+import { Size, ThemeColor } from "../../../types";
 const {
 	size = "medium",
-	type = "default",
+	theme = "default",
 	disabled = false,
 } = defineProps<{
 	size?: Size;
-	type?: "default" | "info" | "primary" | "success" | "warning" | "danger";
+	theme?: "default" | ThemeColor;
 	disabled?: boolean;
 }>();
 </script>
@@ -30,61 +30,49 @@ const {
 .star-ui-button {
 	cursor: pointer;
 	--main-color: var(--star-ui-background-color-primary);
-	--bg-color: var(--main-color);
-	--text-color: var(--star-ui-text-color-in-dark);
-	--border-color: var(--main-color);
-	background: var(--bg-color);
-	color: var(--text-color);
-	border: 1px solid var(--main-color);
+	--button-bg-color: var(--bg-color);
+	--button-text-color: var(--text-color);
+	--button-border-color: var(--bg-color, var(--star-ui-border-color-bold));
+	background: var(--button-bg-color);
+	color: var(--button-text-color);
+	border-color: var(--button-border-color);
+}
+.star-ui-button.star-ui-color-bg-default {
+	--button-border-color: var(--star-ui-border-color-bold);
 }
 
-.star-ui-button-default {
-	--main-color: var(--star-ui-text-color-primary);
-	--bg-color: var(--star-ui-background-color-primary);
-	--text-color: var(--star-ui-text-color-primary);
-}
-
-.star-ui-button-primary {
-	--main-color: var(--star-ui-primary-color);
-}
-.star-ui-button-success {
-	--main-color: var(--star-ui-success-color);
-}
-.star-ui-button-warning {
-	--main-color: var(--star-ui-warning-color);
-}
-.star-ui-button-danger {
-	--main-color: var(--star-ui-danger-color);
-}
-.star-ui-button-info {
-	--main-color: var(--star-ui-info-color);
-}
 .star-ui-button:hover {
 	background-color: hsl(
-		from var(--bg-color) h calc(1.1 * s) calc(0.95 * l) / alpha
+		from var(--button-bg-color) h calc(1.1 * s) calc(0.95 * l) / alpha
 	);
-	color: hsl(from var(--text-color) h calc(1.1 * s) calc(0.95 * l) / alpha);
+	color: hsl(
+		from var(--button-text-color) h calc(1.1 * s) calc(0.95 * l) / alpha
+	);
 	border-color: hsl(
-		from var(--border-color) h calc(1.1 * s) calc(0.95 * l) / alpha
+		from var(--button-border-color) h calc(1.1 * s) calc(0.95 * l) / alpha
 	);
 }
 .star-ui-button:active {
-	background-color: hsl(from var(--bg-color) h calc(1.2 * s) l / alpha);
-	color: hsl(from var(--text-color) h calc(1.2 * s) l / alpha);
+	background-color: hsl(from var(--button-bg-color) h calc(1.2 * s) l / alpha);
+	color: hsl(from var(--button-text-color) h calc(1.2 * s) l / alpha);
 	border-color: hsl(
-		from var(--border-color) h calc(1.2 * s) calc(0.9 * l) / alpha
+		from var(--button-border-color) h calc(1.2 * s) calc(0.9 * l) / alpha
 	);
 }
 .star-ui-button[disabled] {
 	background-color: color-mix(
 		in srgb,
-		var(--bg-color),
+		var(--button-bg-color),
 		var(--star-ui-disabled-color)
 	);
-	color: color-mix(in srgb, var(--text-color), var(--star-ui-disabled-color));
+	color: color-mix(
+		in srgb,
+		var(--button-text-color),
+		var(--star-ui-disabled-color)
+	);
 	border-color: color-mix(
 		in srgb,
-		var(--border-color),
+		var(--button-border-color),
 		var(--star-ui-disabled-color)
 	);
 	cursor: not-allowed;
