@@ -78,7 +78,7 @@ const refInput = useTemplateRef("input");
 	--current-color: var(--active-color);
 }
 .star-ui-switch input:checked + div span {
-	transform: translateX(calc(2.8em - var(--padding) * 2 - 100%));
+	transform: translateX(calc(2.8em - var(--padding) * 2 - 2px - 100%));
 }
 .star-ui-switch input:disabled + div {
 	background-color: color-mix(
