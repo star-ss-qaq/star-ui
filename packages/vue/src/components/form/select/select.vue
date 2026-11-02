@@ -117,7 +117,6 @@ const currentValue = computed(() =>
 			? [modelValue.value]
 			: [],
 );
-watch(currentValue, (v) => console.log(v));
 const valueFn = computed((): ((item: Tree<T>) => V) =>
 	value
 		? typeof value == "function"
