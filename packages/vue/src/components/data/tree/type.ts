@@ -1,6 +1,7 @@
+import { ComputedRef } from "vue";
 import { Size } from "../../../types";
 import { ObjectKeyProp, StringOrNumberValueKey } from "../../../utils";
-
+export type TreeCheckboxMode = "default" | "leafOnly" | "raw";
 export interface TreeItemContext<T> {
 	item: T;
 	index: number;
@@ -13,6 +14,13 @@ export interface TreeItemContextWithKey<T> extends TreeItemContext<T> {
 	itemKey: string | number;
 	items: T[];
 	indexes: number[];
+}
+export interface Tree<T> extends TreeItemContextWithKey<T> {
+	children?: Tree<T>[];
+	parent?: Tree<T> | null;
+	selfChecked: ComputedRef<boolean>;
+	checked: ComputedRef<boolean>;
+	indeterminate: ComputedRef<boolean>;
 }
 type MayChildrenKey<T> = {
 	[k in keyof T]: T[k] extends T[] | undefined ? k : never;
@@ -27,5 +35,7 @@ export interface TreeProp<T> {
 	children?: MayChildrenKey<T> | ((item: T) => T[] | undefined);
 	highlightCurrent?: boolean;
 	itemClick?: "expend" | "select";
-	shouldItemShow?: (item: T) => boolean;
+	shouldItemShow?: (context: TreeItemContextWithKey<T>) => boolean;
+	showCheckbox?: boolean;
+	showCheckboxMode?: TreeCheckboxMode;
 }

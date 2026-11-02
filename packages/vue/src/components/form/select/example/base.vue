@@ -1,6 +1,12 @@
 <template>
-	<Select :options="options" v-model="value" />
-	<Select :options="options" v-model="value" disabled />
+	<div>
+		<Select :options="options" v-model="value" />
+		<Select :options="options" v-model="value" disabled />
+	</div>
+	<div>
+		<Select :options="options" multiple v-model="value2" />
+		<Select :options="options" multiple v-model="value2" disabled />
+	</div>
 </template>
 <script setup lang="ts">
 import { Select } from "@thestarweb/ui";
@@ -24,7 +30,11 @@ const options = [
 	{ label: "label15", value: "15" },
 ];
 const value = ref<string>("");
-watch(value, () => {
-	console.log(value);
+const value2 = ref<string[]>([]);
+watch(value, (v) => {
+	console.log(v);
+});
+watch(value2, (v) => {
+	console.log(v);
 });
 </script>

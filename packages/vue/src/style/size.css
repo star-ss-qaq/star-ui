@@ -1,24 +1,36 @@
 @layer star-ui-size {
 	.star-ui-size-medium {
-		font-size: var(--star-ui-input-medium-font-size);
-		line-height: calc(var(--star-ui-input-medium-font-size) + 2px);
-		padding: var(--star-ui-default-padding);
-		border-radius: var(--star-ui-border-radius-base);
+		--font-size: var(--star-ui-input-medium-font-size);
+		font-size: var(--font-size);
+		--line-height: calc(var(--star-ui-input-medium-font-size) + 2px);
+		line-height: var(--line-height);
+		--padding: var(--star-ui-default-padding);
+		padding: var(--padding);
+		--border-radius: var(--star-ui-border-radius-base);
+		border-radius: var(--border-radius);
 		border: 1px solid transparent;
 	}
 	/*小尺寸空间参数*/
 	.star-ui-size-small {
-		font-size: var(--star-ui-input-small-font-size);
-		line-height: calc(var(--star-ui-input-small-font-size) + 2px);
-		padding: calc(var(--star-ui-default-padding) / 2);
-		border-radius: var(--star-ui-border-radius-base);
+		--font-size: var(--star-ui-input-small-font-size);
+		font-size: var(--font-size);
+		--line-height: calc(var(--star-ui-input-small-font-size) + 2px);
+		line-height: var(--line-height);
+		--padding: calc(var(--star-ui-default-padding) / 2);
+		padding: var(--padding);
+		--border-radius: var(--star-ui-border-radius-base);
+		border-radius: var(--border-radius);
 		border: 1px solid transparent;
 	}
 	.star-ui-size-mini {
-		font-size: var(--star-ui-input-mini-font-size);
-		line-height: calc(var(--star-ui-input-mini-font-size) + 2px);
-		padding: calc(var(--star-ui-default-padding) / 2);
-		border-radius: var(--star-ui-border-radius-base);
+		--font-size: var(--star-ui-input-mini-font-size);
+		font-size: var(--font-size);
+		--line-height: calc(var(--star-ui-input-mini-font-size) + 2px);
+		line-height: var(--line-height);
+		--padding: calc(var(--star-ui-default-padding) / 2);
+		padding: var(--padding);
+		--border-radius: var(--star-ui-border-radius-base);
+		border-radius: var(--border-radius);
 		border: 1px solid transparent;
 	}
 }

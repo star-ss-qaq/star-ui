@@ -13,7 +13,7 @@
 					'star-ui',
 					'star-ui-select',
 					'su-select',
-					`star-ui-select--${multiple ? 'multiple' : 'single'}`,
+					`star-ui-select--${multiple !== false ? 'multiple' : 'single'}`,
 					`star-ui-size-${size}`,
 					{ disabled, 'star-ui-select--open': open },
 				]"
@@ -22,8 +22,17 @@
 				<div class="star-ui-select--content">
 					<template v-if="filter">&#8203;</template>
 					<template v-else-if="selectItem.length > 0">
-						<template v-if="multiple"></template>
-						<component :is="label" v-bind="selectItem[0]" />
+						<template v-if="multiple !== false">
+							<Tag
+								v-for="item in selectItem"
+								class="star-ui-select--multiple-tag"
+								:size="size"
+								theme="info"
+							>
+								<component :is="label" v-bind="item" />
+							</Tag>
+						</template>
+						<component v-else :is="label" v-bind="selectItem[0]" />
 					</template>
 					<div class="star-ui-placeholder" v-else>{{ placeholder }}</div>
 					<input
@@ -42,30 +51,33 @@
 			:class="[
 				'star-ui',
 				'star-ui-select--dropdown',
-				`star-ui-select--${multiple ? 'multiple' : 'single'}`,
+				`star-ui-select--${multiple !== false ? 'multiple' : 'single'}`,
 				`star-ui-select--${children ? 'tree' : 'list'}`,
 			]"
 			:style="{ width: buttonWidth ? `${buttonWidth}px` : '' }"
 		>
-			<Tree
-				:tree-data="options"
-				:label="label"
-				:item-key="itemKey"
-				:children="children || (() => undefined)"
-				:current-key="heightlightKey"
+			<TreeRaw
+				:tree="tree.tree"
+				:size="size"
+				:label-render="label"
+				:current-key="selectItem[0]?.itemKey"
 				:should-item-show="shouldItemShow"
-				highlight-current
+				:highlight-current="multiple === false"
+				:show-checkbox="multiple !== false"
+				:show-checkbox-mode="treeCheckboxMode"
+				:item-handle="multiple === false ? 'none' : 'check'"
 				@item-click="handleItemClick"
+				@check-change="handleCheckChange"
 				@update:current-key=""
 			/>
 		</div>
 	</Popover>
 </template>
-<script setup lang="ts" generic="T, M extends boolean = false">
-import { computed, onMounted, ref, useTemplateRef, watch } from "vue";
-import { Tree } from "../../data/index.js";
+<script setup lang="ts" generic="T, V, M extends boolean = false">
+import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from "vue";
 import Popover from "../../data/popover/popover.vue";
 import {
+	Tree,
 	TreeItemContext,
 	TreeItemContextWithKey,
 	TreeProp,
@@ -74,64 +86,61 @@ import { SelectProp } from "./types";
 import {
 	getTreeKeyFn,
 	getTreeLabelRender,
+	toTree,
 	traverseTree,
 } from "../../data/tree/utils.js";
 import { IconArrowDown } from "../../../icons/index.js";
+import TreeRaw from "../../data/tree/tree-raw.vue";
+import { Tag } from "../../data/index.js";
 
 const {
 	size = "medium",
 	options,
 	disabled,
 	label: _label, // = "label" as unknown as TreeProp<T>["label"],
-	itemKey: _itemKey,
+	itemKey,
 	value,
 	isValueEqual = (a, b) => a === b,
 	children,
-	multiple,
+	multiple = false,
 	placeholder = "Select...",
 	filterable = true,
-} = defineProps<SelectProp<T, M>>();
+	treeCheckboxMode = "default",
+} = defineProps<SelectProp<T, V, M>>();
+
 const open = defineModel<boolean>("open", { default: false });
-const modelValue = defineModel<M extends true ? any[] : any>();
-const itemKey = computed(
-	() => _itemKey ?? ("value" as unknown as TreeProp<T>["itemKey"]),
+const modelValue = defineModel<M extends true ? V[] : V>();
+const currentValue = computed(() =>
+	Array.isArray(modelValue.value)
+		? modelValue.value
+		: modelValue.value
+			? [modelValue.value]
+			: [],
 );
+watch(currentValue, (v) => console.log(v));
+const valueFn = computed((): ((item: Tree<T>) => V) =>
+	value
+		? typeof value == "function"
+			? ({ item }) => value(item)
+			: ({ item }) => item[value] as V
+		: (context) => context.itemKey as V,
+);
+const tree = computed(() => {
+	return toTree(options, itemKey, children, treeCheckboxMode, (item) =>
+		currentValue.value.some((i) => isValueEqual(valueFn.value(item), i)),
+	);
+});
 const label = computed(() =>
 	getTreeLabelRender(_label || ("label" as unknown as TreeProp<T>["label"])),
 );
-const getKey = computed(() => getTreeKeyFn(itemKey.value));
 const selectItem = computed(() => {
-	const values: any[] = multiple
-		? modelValue.value || []
-		: modelValue.value
-			? [modelValue.value]
-			: [];
-	if (value) {
-		const fn =
-			typeof value == "function" ? value : (context) => context.item[value];
-		const res: TreeItemContext<T>[] = [];
-		traverseTree(options, children || (() => undefined), (i) => {
-			const value = fn(i);
-			if (values.some((i) => isValueEqual(i, value))) {
-				res.push(i);
-			}
-		});
-		return res.map((i) => ({ ...i, itemKey: getKey.value(i.item, i) }));
-	}
-	const res: TreeItemContextWithKey<T>[] = [];
-	traverseTree(options, children || (() => undefined), (i) => {
-		const value = getKey.value(i.item, i);
-		if (values.includes(value)) {
-			res.push({ ...i, itemKey: value });
+	const map: Tree<T>[] = [];
+	tree.value.map.forEach((v) => {
+		if (v.selfChecked.value) {
+			map.push(v);
 		}
 	});
-	return res;
-});
-const heightlightKey = computed(() => {
-	if (!multiple) {
-		return selectItem.value[0]?.itemKey;
-	}
-	return undefined;
+	return map;
 });
 
 const refButton = useTemplateRef("button");
@@ -160,15 +169,34 @@ const filteredForShowValue = computed(() => {
 	return showNode;
 });
 function shouldItemShow({ item }: TreeItemContextWithKey<T>) {
-	console.log(filteredForShowValue.value);
 	if (!filteredForShowValue.value) return true;
 	return filteredForShowValue.value.has(item);
 }
 
-function handleItemClick(context: TreeItemContextWithKey<T>) {
-	if (!multiple) {
-		(modelValue.value as any) = context.itemKey;
+function handleItemClick(context: Tree<T>) {
+	if (multiple === false) {
+		(modelValue.value as V) = valueFn.value(context);
 		open.value = false;
+	}
+}
+function handleCheckChange({
+	add,
+	remove,
+}: {
+	add: Set<Tree<T>>;
+	remove: Set<Tree<T>>;
+}) {
+	if (multiple !== false) {
+		const addValue: V[] = [];
+		const removeValue: V[] = [];
+		add.forEach((i) => addValue.push(valueFn.value(i)));
+		remove.forEach((i) => removeValue.push(valueFn.value(i)));
+		(modelValue.value as V[]) = [
+			...((modelValue.value as V[]) || []).filter(
+				(i) => !removeValue.some((j) => isValueEqual(i, j)),
+			),
+			...addValue,
+		];
 	}
 }
 </script>
@@ -185,6 +213,11 @@ function handleItemClick(context: TreeItemContextWithKey<T>) {
 	position: relative;
 	cursor: pointer;
 }
+.star-ui-select--multiple-tag {
+	padding: 2px 5px;
+	margin: -2px 0;
+	border: 0;
+}
 .star-ui-select:hover {
 	border-color: var(--star-ui-primary-color);
 }
@@ -195,6 +228,10 @@ function handleItemClick(context: TreeItemContextWithKey<T>) {
 	border-color: var(--star-ui-border-color-base);
 	background-color: color-mix(var(--bg-color), var(--star-ui-disabled-color));
 	cursor: not-allowed;
+}
+.star-ui-select--append {
+	display: inline-flex;
+	align-items: center;
 }
 .star-ui-select--dropdown-icon {
 	transform: rotate(0);
@@ -211,12 +248,17 @@ function handleItemClick(context: TreeItemContextWithKey<T>) {
 .star-ui-select--dropdown.star-ui-select--list .star-ui-tree-expand-button {
 	display: none;
 }
-.star-ui-select--dropdown .star-ui-tree-item-label:hover {
+.star-ui-select--dropdown.star-ui-select--single
+	.star-ui-tree-item-label:hover {
 	background-color: var(--star-ui-primary-color);
 }
+
 .star-ui-select--content {
 	position: relative;
 	flex: 1 1 0;
+	display: flex;
+	gap: var(--padding);
+	flex-wrap: wrap;
 }
 
 .star-ui-select--filter {

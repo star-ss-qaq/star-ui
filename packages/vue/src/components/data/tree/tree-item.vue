@@ -1,15 +1,6 @@
 <template>
 	<div
-		v-if="
-			!shouldItemShow ||
-			shouldItemShow({
-				item,
-				index,
-				itemKey: itemKey,
-				items: items,
-				indexes: indexes,
-			})
-		"
+		v-if="!shouldItemShow || shouldItemShow(item)"
 		:class="['star-ui', 'star-ui-tree-item']"
 	>
 		<div
@@ -17,122 +8,78 @@
 				'star-ui-tree-item-label',
 				'star-ui-size-' + size,
 				{
-					'star-ui-tree-current': currentKey === itemKey,
+					'star-ui-tree-current': currentKey === item.itemKey,
 				},
 			]"
+			@click="handleClick"
 		>
 			<span
 				:class="[
 					'star-ui-tree-expand-button',
-					children?.length
-						? expendKey?.has(itemKey)
+					item.children?.length
+						? expendKey?.has(item.itemKey)
 							? 'expend'
 							: 'not-expend'
 						: 'no-child',
 				]"
-				@click="handleExpend"
+				@click.stop="handleExpend"
 			>
-				<IconArrowRight v-if="children?.length" class="star-ui-icon" />
+				<IconArrowRight v-if="item.children?.length" class="star-ui-icon" />
 			</span>
-			<div @click="handleClick">
-				<component
-					:is="labelRender"
-					:item="item"
-					:index="index"
-					:items="items"
-					:indexes="indexes"
-					:item-key="itemKey"
-				/>
+			<CheckBox
+				v-if="showCheckbox"
+				:model-value="item.checked.value"
+				:indeterminate="item.indeterminate.value"
+				:size="size"
+				class="star-ui-tree--checkbox"
+				@update:model-value=""
+				@mousedown.prevent.stop="emit('check', item)"
+			/>
+			<div>
+				<component :is="labelRender" v-bind="item" />
 			</div>
 		</div>
-		<div class="star-ui-tree-item-child" v-if="expendKey.has(itemKey)">
+		<div class="star-ui-tree-item-child" v-if="expendKey.has(item.itemKey)">
 			<tree-item
-				v-for="(item, index) in children"
-				:key="
-					itemKeyFn(item, {
-						item,
-						index,
-						items: items,
-						indexes: indexes,
-					})
-				"
+				v-for="subItem in item.children"
+				:key="subItem.itemKey"
 				v-bind="$props"
-				:item="item"
-				:index="index"
-				:p-indexes="indexes"
-				:p-items="items"
+				:item="subItem"
 				@expend="(...prop) => emit('expend', ...prop)"
+				@check="(...prop) => emit('check', ...prop)"
 				@item-click="(...prop) => emit('item-click', ...prop)"
 			>
-				<template #="prop">
-					<slot v-bind="prop"></slot>
-				</template>
 			</tree-item>
 		</div>
 	</div>
 </template>
 <script setup lang="ts" generic="T = any">
 import { Size } from "../../../types";
-import { computed } from "vue";
-import { TreeItemContext, TreeItemContextWithKey } from "./type";
+import { Tree } from "./type";
 import { IconArrowRight } from "../../../icons";
+import { CheckBox } from "../../form";
 
-const {
-	item,
-	index,
-	size,
-	itemKeyFn,
-	childrenFn,
-	currentKey,
-	expendKey,
-	pIndexes = [],
-	pItems = [],
-	labelRender,
-} = defineProps<{
-	item: T;
-	index: number;
-	size: Size;
-	itemKeyFn: (item: T, context: TreeItemContext<T>) => string | number;
-	childrenFn: (item: T) => T[] | undefined;
-	currentKey?: string | number;
-	expendKey: Set<string | number>;
-	pIndexes?: number[];
-	pItems?: T[];
-	labelRender?: (context: TreeItemContextWithKey<T>) => any;
-	shouldItemShow?: (context: TreeItemContextWithKey<T>) => boolean;
-}>();
-const indexes = computed(() => [...pIndexes, index]);
-const items = computed(() => [...pItems, item]);
-const itemKey = computed(() =>
-	itemKeyFn(item, {
-		item,
-		index,
-		items: items.value,
-		indexes: indexes.value,
-	}),
-);
-const children = computed(() => childrenFn(item));
+const { item, size, currentKey, expendKey, labelRender, showCheckbox } =
+	defineProps<{
+		item: Tree<T>;
+		size: Size;
+		currentKey?: string | number;
+		expendKey: Set<string | number>;
+		labelRender: (item: Tree<T>) => any;
+		shouldItemShow?: (item: Tree<T>) => boolean;
+		showCheckbox?: boolean;
+	}>();
+
 const emit = defineEmits<{
-	(ev: "item-click", context: TreeItemContextWithKey<T>): void;
-	(ev: "expend", context: TreeItemContextWithKey<T>): void;
+	(ev: "item-click", item: Tree<T>): void;
+	(ev: "expend", item: Tree<T>): void;
+	(ev: "check", item: Tree<T>): void;
 }>();
 function handleClick() {
-	emit("item-click", {
-		item,
-		index,
-		itemKey: itemKey.value,
-		items: items.value,
-		indexes: indexes.value,
-	});
+	emit("item-click", item);
 }
 function handleExpend() {
-	emit("expend", {
-		item,
-		index,
-		itemKey: itemKey.value,
-		items: items.value,
-		indexes: indexes.value,
-	});
+	emit("expend", item);
 }
 </script>
 
@@ -165,5 +112,9 @@ function handleExpend() {
 	opacity: 0;
 	cursor: initial;
 	pointer-events: none;
+}
+.star-ui-tree--checkbox {
+	padding: 0;
+	margin-right: 0.2em;
 }
 </style>

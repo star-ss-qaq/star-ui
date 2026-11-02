@@ -14,7 +14,8 @@
 			type="checkbox"
 			:disabled="disabled"
 			@change.capture="
-				disabled ? (refInput!.checked = value) : (value = refInput!.checked)
+				disabled || (value = refInput!.checked);
+				refInput!.checked = value;
 			"
 		/>
 		<span
