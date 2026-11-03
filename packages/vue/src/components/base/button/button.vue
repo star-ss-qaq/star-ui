@@ -1,5 +1,7 @@
 <template>
-	<button
+	<component
+		:is="dynComp.tag"
+		v-bind="dynComp.prop"
 		:class="[
 			'star-ui',
 			'su-container',
@@ -8,22 +10,30 @@
 			`star-ui-color-bg-${theme}`,
 			`star-ui-size-${size}`,
 		]"
-		:disabled="disabled"
 	>
 		<slot></slot>
-	</button>
+	</component>
 </template>
 <script setup lang="tsx">
+import { computed } from "vue";
 import { Size, ThemeColor } from "../../../types";
 const {
 	size = "medium",
 	theme = "default",
 	disabled = false,
+	href,
 } = defineProps<{
 	size?: Size;
 	theme?: "default" | ThemeColor;
 	disabled?: boolean;
+	href?: string;
 }>();
+const dynComp = computed(() => {
+	if (href && !disabled) {
+		return { tag: "a", prop: { href } };
+	}
+	return { tag: "button", prop: { disabled } };
+});
 </script>
 
 <style>
@@ -36,6 +46,10 @@ const {
 	background: var(--button-bg-color);
 	color: var(--button-text-color);
 	border-color: var(--button-border-color);
+	text-align: center;
+}
+a.star-ui-button {
+	text-decoration: none;
 }
 .star-ui-button.star-ui-color-bg-default {
 	--button-border-color: var(--star-ui-border-color-bold);

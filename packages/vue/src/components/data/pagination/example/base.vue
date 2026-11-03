@@ -1,9 +1,15 @@
 <template>
 	<Pagination :total="23" :page-size="10" v-model:page="page" />
 	<Pagination :total="233" :page-size="10" v-model:page="page" />
+	<Pagination
+		:total="233"
+		:page-size="10"
+		v-model:page="page"
+		url="/:pageSize/:page"
+	/>
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
-import Pagination from "../pagination.vue";
+import { Pagination } from "@thestarweb/ui";
 const page = ref(1);
 </script>
