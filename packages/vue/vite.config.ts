@@ -5,10 +5,13 @@ import { readFile } from "fs/promises";
 import { compileTemplate } from "vue/compiler-sfc";
 const p = join(process.cwd(), "../vue/src/main.ts");
 export default defineConfig({
-	resolve: {},
+	resolve: {
+		tsconfigPaths: true,
+	},
 	plugins: [
-		vue(),
+		vue({}),
 		{
+			name: "svg-loader",
 			enforce: "pre",
 			load: {
 				filter: {
@@ -44,11 +47,12 @@ export default defineConfig({
 		lib: {
 			entry: ["src/index.ts"],
 			formats: ["es"],
-			fileName: (f, name) => `${name}.js`,
+			name: "starUi",
+			cssFileName: "style",
 		},
 		outDir: "dist",
 		rolldownOptions: {
-			external: /^[^\.\/\0]/,
+			external: /\/node_modules\//,
 			output: {
 				preserveModules: true,
 				preserveModulesRoot: "src",

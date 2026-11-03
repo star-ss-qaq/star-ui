@@ -1,0 +1,25 @@
+{
+	"extends": "./tsconfig.build.json",
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "nodenext",
+		"strict": true,
+		"jsx": "preserve",
+		"importHelpers": true,
+		"moduleResolution": "nodenext",
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"sourceMap": true,
+		"declaration": true,
+		"declarationDir": "./types/",
+		"emitDeclarationOnly": true,
+		"outDir": "./dist",
+		"noImplicitAny": false,
+		"types": ["vite/client"],
+		"paths": { "@thestarweb/ui": ["./src/index.ts"] },
+		"rootDir": "./src"
+	},
+	"exclude": ["**/example/**"]
+}

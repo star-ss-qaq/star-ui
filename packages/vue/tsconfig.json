@@ -16,6 +16,7 @@
 		"emitDeclarationOnly": true,
 		"outDir": "./dist",
 		"noImplicitAny": false,
+		"types": ["vite/client"],
 		"paths": { "@thestarweb/ui": ["./src/index.ts"] }
 	}
 }
