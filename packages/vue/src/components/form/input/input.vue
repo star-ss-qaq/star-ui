@@ -8,18 +8,28 @@
 			{ disabled },
 		]"
 	>
-		<input
-			type="text"
-			ref="input"
-			v-model="value"
-			:name="name"
-			:class="['star-ui', 'star-ui-input--inner']"
-			:disabled="disabled"
-		/>
-		<div class="star-ui-placeholder" v-if="!value">{{ placeholder }}</div>
+		<div class="star-ui-input--content">
+			<input
+				type="text"
+				ref="input"
+				v-model="value"
+				:name="name"
+				:class="['star-ui', 'star-ui-input--inner']"
+				:disabled="disabled"
+			/>
+			<div class="star-ui-placeholder" v-if="!value">{{ placeholder }}</div>
+		</div>
+		<div class="star-ui-input--append">
+			<IconClear
+				class="star-ui-input--clear-icon"
+				v-if="clearable && value && !disabled"
+				@click="value = ''"
+			/>
+		</div>
 	</div>
 </template>
 <script setup lang="ts">
+import { IconClear } from "../../../icons";
 import { Size } from "../../../types";
 
 const {
@@ -27,14 +37,16 @@ const {
 	disabled,
 	size = "medium",
 	placeholder = "input...",
+	clearable = true,
 } = defineProps<{
 	name?: string;
 	disabled?: boolean;
 	size?: Size;
 	placeholder?: string;
+	clearable?: boolean;
 }>();
 
-const value = defineModel({
+const value = defineModel<string>({
 	set(v) {
 		if (disabled) {
 			return value.value;
@@ -61,6 +73,12 @@ const value = defineModel({
 .star-ui-input:focus-within {
 	border-color: var(--star-ui-primary-color);
 }
+.star-ui-input--content {
+	position: relative;
+	display: inline-flex;
+	flex-direction: row;
+	flex: 1 1 0;
+}
 .star-ui-input--inner,
 .star-ui-input--inner:hover,
 .star-ui-input--inner:active,
@@ -85,5 +103,16 @@ const value = defineModel({
 }
 .star-ui-input .star-ui-placeholder {
 	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
+.star-ui-input--clear-icon {
+	display: none;
+	cursor: pointer;
+}
+.star-ui-input:hover .star-ui-input--clear-icon,
+.star-ui-input:focus-within .star-ui-input--clear-icon {
+	display: inline-block;
 }
 </style>

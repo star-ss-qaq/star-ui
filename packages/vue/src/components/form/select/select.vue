@@ -43,7 +43,16 @@
 					/>
 				</div>
 				<div class="star-ui-select--append">
-					<IconArrowDown class="star-ui-icon star-ui-select--dropdown-icon" />
+					<IconClear
+						v-if="
+							clearable &&
+							!disabled &&
+							(multiple !== false ? (modelValue as any[])?.length : modelValue)
+						"
+						class="star-ui-select--clear-icon"
+						@click="modelValue = multiple ? [] : (undefined as any)"
+					/>
+					<IconArrowDown class="star-ui-select--dropdown-icon" />
 				</div>
 			</div>
 		</template>
@@ -89,7 +98,7 @@ import {
 	toTree,
 	traverseTree,
 } from "../../data/tree/utils.js";
-import { IconArrowDown } from "../../../icons/index.js";
+import { IconArrowDown, IconClear } from "../../../icons/index.js";
 import TreeRaw from "../../data/tree/tree-raw.vue";
 import { Tag } from "../../data/index.js";
 
@@ -106,6 +115,7 @@ const {
 	placeholder = "Select...",
 	filterable = true,
 	treeCheckboxMode = "default",
+	clearable = true,
 } = defineProps<SelectProp<T, V, M>>();
 
 const open = defineModel<boolean>("open", { default: false });
@@ -231,6 +241,17 @@ function handleCheckChange({
 .star-ui-select--append {
 	display: inline-flex;
 	align-items: center;
+}
+.star-ui-select--clear-icon {
+	display: none;
+}
+.star-ui-select:hover .star-ui-select--clear-icon {
+	display: inline-block;
+}
+.star-ui-select:hover
+	.star-ui-select--clear-icon
+	+ .star-ui-select--dropdown-icon {
+	display: none;
 }
 .star-ui-select--dropdown-icon {
 	transform: rotate(0);
