@@ -16,6 +16,7 @@
 			:class="['star-ui', 'star-ui-input--inner']"
 			:disabled="disabled"
 		/>
+		<div class="star-ui-placeholder" v-if="!value">{{ placeholder }}</div>
 	</div>
 </template>
 <script setup lang="ts">
@@ -25,10 +26,12 @@ const {
 	name,
 	disabled,
 	size = "medium",
+	placeholder = "input...",
 } = defineProps<{
 	name?: string;
 	disabled?: boolean;
 	size?: Size;
+	placeholder?: string;
 }>();
 
 const value = defineModel({
@@ -79,5 +82,8 @@ const value = defineModel({
 }
 .star-ui-input.disabled .star-ui-input--inner {
 	cursor: not-allowed;
+}
+.star-ui-input .star-ui-placeholder {
+	position: absolute;
 }
 </style>
