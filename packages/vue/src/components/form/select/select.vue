@@ -20,7 +20,9 @@
 				@click="!disabled && (open = true)"
 			>
 				<div class="star-ui-select--content">
-					<template v-if="filter">&#8203;</template>
+					<template v-if="filter && (multiple === false || !selectItem.length)">
+						&#8203;
+					</template>
 					<template v-else-if="selectItem.length > 0">
 						<template v-if="multiple !== false">
 							<Tag
@@ -28,6 +30,8 @@
 								class="star-ui-select--multiple-tag"
 								:size="size"
 								theme="info"
+								closeable
+								@close="handleClose(item)"
 							>
 								<component :is="label" v-bind="item" />
 							</Tag>
@@ -36,6 +40,7 @@
 					</template>
 					<div class="star-ui-placeholder" v-else>{{ placeholder }}</div>
 					<input
+						ref="filterInput"
 						v-model="filter"
 						class="star-ui-select--filter"
 						v-if="filterable"
@@ -152,16 +157,28 @@ const selectItem = computed(() => {
 	return map;
 });
 
+function handleClose(item: Tree<T>) {
+	const closeValue = valueFn.value(item);
+	(modelValue.value as V[]) = (modelValue.value as V[]).filter(
+		(i) => !isValueEqual(i, closeValue),
+	);
+	if (filterable && open.value) refFilterInput.value?.focus();
+}
+
 const refButton = useTemplateRef("button");
 const buttonWidth = ref(0);
 onMounted(() => {
 	buttonWidth.value = refButton.value!.offsetWidth;
 });
 
+const refFilterInput = useTemplateRef("filterInput");
 const filter = ref("");
 watch(open, (v) => {
-	if (!v) {
+	if (v) {
+		filterable && refFilterInput.value?.focus();
+	} else {
 		filter.value = "";
+		refFilterInput.value?.blur();
 	}
 });
 const filteredForShowValue = computed(() => {
@@ -206,6 +223,7 @@ function handleCheckChange({
 			),
 			...addValue,
 		];
+		if (filterable) refFilterInput.value?.focus();
 	}
 }
 </script>
@@ -282,12 +300,19 @@ function handleCheckChange({
 }
 
 .star-ui-select--filter {
-	position: absolute;
-	left: 0;
-	top: 0;
 	outline: none;
 	border: none;
 	background-color: transparent;
+}
+.star-ui-select--multiple .star-ui-placeholder + .star-ui-select--filter,
+.star-ui-select--single .star-ui-select--filter {
+	position: absolute;
+	left: 0;
+	top: 0;
 	width: 100%;
+}
+.star-ui-select--multiple .star-ui-select--filter {
+	flex: 1 1 0;
+	min-width: 5px;
 }
 </style>
