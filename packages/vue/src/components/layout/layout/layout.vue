@@ -1,11 +1,18 @@
 <template>
-	<div :class="['star-ui', 'su-layout', `su-layout-${direction}`]">
+	<div :class="['star-ui', 'su-layout', `su-layout-${relDirection}`]">
 		<slot></slot>
 	</div>
 </template>
 
 <script setup lang="ts">
-const { direction = "h" } = defineProps<{ direction?: "h" | "v" }>();
+import { computed } from "vue";
+import { useIsMobile } from "../../../context";
+
+const { direction = "h" } = defineProps<{ direction?: "h" | "v" | "dyn" }>();
+const isMobile = useIsMobile();
+const relDirection = computed(() =>
+	direction === "dyn" ? (isMobile.value ? "v" : "h") : direction,
+);
 </script>
 
 <style>
