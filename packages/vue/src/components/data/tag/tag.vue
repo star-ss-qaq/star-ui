@@ -10,19 +10,38 @@
 			'star-ui-block-theme-apply-text',
 		]"
 	>
-		<slot></slot>
+		<span>
+			<slot></slot>
+		</span>
+		<IconClose
+			class="star-ui-tag--close"
+			v-if="closeable"
+			@click="emit('close')"
+		/>
 	</span>
 </template>
 <script setup lang="ts">
+import { IconClose } from "../../../icons";
 import { Size, ThemeColor } from "../../../types";
 
-const { size = "medium", theme = "primary" } = defineProps<{
+const {
+	size = "medium",
+	theme = "primary",
+	closeable,
+} = defineProps<{
 	size?: Size;
 	theme?: ThemeColor;
+	closeable?: boolean;
 }>();
+const emit = defineEmits<{ (ev: "close"): void }>();
 </script>
 <style>
 .star-ui-tag {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--star-ui-default-padding);
+}
+.star-ui-tag--close {
+	cursor: pointer;
 }
 </style>
