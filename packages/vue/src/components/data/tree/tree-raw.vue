@@ -24,6 +24,10 @@
 			@item-click="handleItemClick"
 		>
 		</tree-item>
+		<div class="star-ui-tree--empty-tip">
+			<slot v-if="$slots.empty" name="empty"></slot>
+			<template v-else>{{ emptyTip }}</template>
+		</div>
 	</div>
 </template>
 <script setup lang="ts" generic="T">
@@ -42,6 +46,7 @@ const {
 	labelRender,
 	showCheckboxMode = "default",
 	itemHandle = "expend",
+	emptyTip = "no data",
 } = defineProps<{
 	tree: Tree<T>[];
 	size: Size;
@@ -52,6 +57,7 @@ const {
 	showCheckbox?: boolean;
 	showCheckboxMode?: TreeCheckboxMode;
 	itemHandle?: "expend" | "none" | "check";
+	emptyTip?: string;
 }>();
 
 const emit = defineEmits<{
@@ -144,5 +150,13 @@ function handleItemClick(item: Tree<T>) {
 <style>
 .star-ui-tree-highlight-current .star-ui-tree-current {
 	background-color: var(--star-ui-primary-color);
+}
+.star-ui-tree--empty-tip {
+	text-align: center;
+	color: var(--star-ui-text-color-weak);
+	display: none;
+}
+.star-ui-tree > :first-child.star-ui-tree--empty-tip {
+	display: block;
 }
 </style>
