@@ -20,7 +20,6 @@ export default defineConfig({
 					id: /\.svg\?component$/,
 				},
 				async handler(id) {
-					console.log(111);
 					const [path, query] = id.split("?", 2);
 					let svg = "";
 					try {
@@ -39,12 +38,15 @@ export default defineConfig({
 						filename: path,
 						transformAssetUrls: false,
 					});
-
+					this.addWatchFile(path);
 					return `${code}\nexport default { render: render }`;
 				},
 			},
 		},
-		dts({ processor: "vue" }),
+		dts({
+			// include: ["./src/**/*/vue", "./src/**/*/ts"],
+			exclude: ["./dist/**", "**/example/**"],
+		}),
 	],
 	build: {
 		lib: {
@@ -55,7 +57,7 @@ export default defineConfig({
 		},
 		outDir: "dist",
 		rolldownOptions: {
-			external: /\/node_modules\//,
+			external: /^[^\./\\][^\\/]/,
 			output: {
 				preserveModules: true,
 				preserveModulesRoot: "src",
