@@ -10,7 +10,7 @@
 	>
 		<div class="star-ui-input--content">
 			<input
-				type="text"
+				:type="type"
 				ref="input"
 				v-model="value"
 				:name="name"
@@ -38,12 +38,14 @@ const {
 	size = "medium",
 	placeholder = "input...",
 	clearable = true,
+	type = "text",
 } = defineProps<{
 	name?: string;
 	disabled?: boolean;
 	size?: Size;
 	placeholder?: string;
 	clearable?: boolean;
+	type?: "text" | "password";
 }>();
 
 const value = defineModel<string>({
