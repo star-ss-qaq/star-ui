@@ -19,6 +19,12 @@
 				]"
 				@click="!disabled && (open = true)"
 			>
+				<select
+					:id="`sf_input_${id}`"
+					:value="modelValue"
+					:name="name"
+					class="star-ui-select--inner"
+				/>
 				<div class="star-ui-select--content">
 					<template v-if="filter && (multiple === false || !selectItem.length)">
 						&#8203;
@@ -88,7 +94,15 @@
 	</Popover>
 </template>
 <script setup lang="ts" generic="T, V, M extends boolean = false">
-import { computed, nextTick, onMounted, ref, useTemplateRef, watch } from "vue";
+import {
+	computed,
+	nextTick,
+	onMounted,
+	ref,
+	useId,
+	useTemplateRef,
+	watch,
+} from "vue";
 import Popover from "../../data/popover/popover.vue";
 import {
 	Tree,
@@ -121,7 +135,10 @@ const {
 	filterable = true,
 	treeCheckboxMode = "default",
 	clearable = true,
+	name,
 } = defineProps<SelectProp<T, V, M>>();
+
+const id = useId();
 
 const open = defineModel<boolean>("open", { default: false });
 const modelValue = defineModel<M extends true ? V[] : V>();
@@ -239,6 +256,9 @@ function handleCheckChange({
 	background-color: var(--bg-color);
 	position: relative;
 	cursor: pointer;
+}
+.star-ui-select--inner {
+	display: none;
 }
 .star-ui-select--multiple-tag {
 	padding: 2px 5px;

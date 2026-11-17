@@ -10,6 +10,8 @@
 	>
 		<div class="star-ui-input--content">
 			<input
+				v-bind="$attrs"
+				:id="`sf_input_${id}`"
 				:type="type"
 				ref="input"
 				v-model="value"
@@ -29,6 +31,7 @@
 	</div>
 </template>
 <script setup lang="ts">
+import { useId } from "vue";
 import { IconClear } from "../../../icons";
 import { Size } from "../../../types";
 
@@ -47,6 +50,8 @@ const {
 	clearable?: boolean;
 	type?: "text" | "password";
 }>();
+
+const id = useId();
 
 const value = defineModel<string>({
 	set(v) {

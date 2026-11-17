@@ -30,4 +30,5 @@ export interface SelectProp<T, V, M extends boolean> {
 	filterable?: boolean;
 	treeCheckboxMode?: TreeCheckboxMode;
 	clearable?: boolean;
+	name?: string;
 }
