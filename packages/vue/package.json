@@ -1,6 +1,6 @@
 {
 	"name": "@thestarweb/ui",
-	"version": "2.0.0-beta.1",
+	"version": "2.0.0-beta.6",
 	"private": false,
 	"scripts": {
 		"build": "vite build"
@@ -8,7 +8,10 @@
 	"main": "dist/index.mjs",
 	"types": "types/src/index.d.ts",
 	"exports": {
-		".": "./dist/index.mjs",
+		".": {
+			"import": "./dist/index.mjs",
+			"types": "./dist/index.d.ts"
+		},
 		"./style.css": "./dist/style.css"
 	},
 	"dependencies": {

@@ -57,7 +57,11 @@ export default defineConfig({
 		},
 		outDir: "dist",
 		rolldownOptions: {
-			external: /^[^\./\\][^\\/]/,
+			/**
+			 * 非.和\0开头，过滤掉虚拟模块和线路路径引用，非/开头过滤unix绝对路径（模块解析后可能会变成绝对路径）
+			 * 第二个位非/和:，解决Windows下的绝对路径
+			 */
+			external: /^[^\.\/\0][^\/:]/,
 			output: {
 				preserveModules: true,
 				preserveModulesRoot: "src",
